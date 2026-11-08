@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Utah Backyard Birds - Graphics (Project 6)</title>
+    <style>
+        :root {
+            --cream: #F4F1E8;
+            --text: #2F3328;
+            --green: #3F5A36;
+            --green-alt: #526E3D;
+            --brown: #6B5133;
+            --link: #315B7D;
+            --hover: #A14F24;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--cream);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 26px 16px 40px;
+        }
+        main { max-width: 960px; margin: 0 auto; text-align: center; }
+        h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+        h1 { color: var(--green); margin: 0 0 4px; font-size: 2.1rem; }
+        h2 { color: var(--green-alt); margin-top: 25px; }
+        h3 { color: var(--brown); }
+        .lead { margin: 0 auto 23px; max-width: 730px; }
+        .rollovers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            align-items: center;
+            justify-content: center;
+            margin: 16px auto 22px;
+        }
+        .rollover-panel { min-width: 240px; }
+        .rollover-panel h2 { font-size: 1.05rem; margin: 0 0 10px; }
+        .rollover-panel a { display: inline-block; border-radius: 6px; }
+        .rollover-panel a:focus-visible, .thumb-button:focus-visible {
+            outline: 3px solid var(--hover); outline-offset: 4px;
+        }
+        .rollover-panel img { display: block; margin: 0 auto; }
+        .instructions { font-style: italic; font-size: .9rem; }
+        
+        #thumbs, #image {
+            width: 700px;
+            max-width: 100%;
+            border: solid 1px #000;
+            text-align: center;
+            margin: 0 auto;
+            color: #000;
+            background: #eee;
+            padding: 5px;
+        }
+        #thumbs { margin-top: 10px; }
+        #thumbs img { border: solid 1px #000; margin: 5px; display: block; }
+        #image { height: 400px; padding-top: 30px; }
+        #image img { display: block; margin: 0 auto; width: 400px; height: 267px; max-width: 100%; object-fit: contain; }
+        #bottomText { margin: 15px 0 0; color: var(--brown); }
+        .thumb-button {
+            padding: 0;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: middle;
+        }
+        .thumb-button.active { border-color: var(--green); }
+        .thumb-button:hover { border-color: var(--hover); }
+        .background-demo { margin: 18px auto 8px; }
+        .background-demo img { display: block; max-width: 100%; height: auto; margin: 10px auto; border: 1px solid var(--brown); }
+        .note { font-size: .85rem; color: var(--brown); }
+        @media (max-width: 640px) {
+            body { padding-inline: 8px; }
+            h1 { font-size: 1.65rem; }
+            #thumbs img { width: 120px; height: 80px; }
+            #image { height: auto; min-height: 355px; }
+            #image img { height: auto; }
+        }
+    </style>
+    <script>
+        var imgArray = [
+            'image1lg.jpg',
+            'image2lg.jpg',
+            'image3lg.jpg',
+            'image4lg.jpg'
+        ];
+        var titleArray = [
+            'Northern Cardinal',
+            'Great Horned Owl',
+            'California Quail',
+            'Great Blue Heron'
+        ];
+        var imgPath = 'Images/fullsize/';
+        var loadedImages = [];
+
+        function swapImage(imgID) {
+            var theImage = document.getElementById('theImage');
+            var textDiv = document.getElementById('bottomText');
+            theImage.src = imgPath + imgArray[imgID];
+            theImage.alt = titleArray[imgID];
+            textDiv.textContent = titleArray[imgID];
+
+            var buttons = document.querySelectorAll('.thumb-button');
+            buttons.forEach(function (button, index) {
+                var isActive = index === imgID;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+        }
+
+        function preloadImages() {
+            var paths = [
+                'Images/print1.jpg', 'Images/print2.jpg',
+                'Images/BackyardBirdLogo.jpg', 'Images/BackyardBirdLogo2.jpg'
+            ];
+            imgArray.forEach(function (filename) {
+                paths.push(imgPath + filename);
+            });
+            paths.forEach(function (path) {
+                var image = new Image();
+                image.src = path;
+                loadedImages.push(image);
+            });
+        }
+    </script>
+</head>
+<body onload="preloadImages()">
+    <main>
+        <h1>Utah Backyard Birds</h1>
+        <p class="lead">Project 6: Web Site Resources and JavaScript Behaviors</p>
+        <div class="rollovers">
+            <section class="rollover-panel" aria-labelledby="print-heading">
+                <h2 id="print-heading">Print Page Button Rollover</h2>
+                
+                <a href="#" aria-label="Print Page button rollover demonstration"
+                   onclick="return false;"
+                   onmouseover="document.getElementById('print').src='Images/print2.jpg';"
+                   onmouseout="document.getElementById('print').src='Images/print1.jpg';"
+                   onfocus="document.getElementById('print').src='Images/print2.jpg';"
+                   onblur="document.getElementById('print').src='Images/print1.jpg';">
+                    <img id="print" src="Images/print1.jpg" alt="Print Page" width="200" height="50">
+                </a>
+                <p class="instructions">Move your mouse over the button to see its pressed appearance.</p>
+            </section>
+            <section class="rollover-panel" aria-labelledby="logo-heading">
+                <h2 id="logo-heading">Bird Logo Rollover</h2>
+                <a href="#" aria-label="Utah Backyard Birds logo rollover demonstration"
+                   onclick="return false;"
+                   onmouseover="document.getElementById('logo').src='Images/BackyardBirdLogo2.jpg';"
+                   onmouseout="document.getElementById('logo').src='Images/BackyardBirdLogo.jpg';"
+                   onfocus="document.getElementById('logo').src='Images/BackyardBirdLogo2.jpg';"
+                   onblur="document.getElementById('logo').src='Images/BackyardBirdLogo.jpg';">
+                    <img id="logo" src="Images/BackyardBirdLogo.jpg" alt="Utah Backyard Birds logo" width="140" height="160">
+                </a>
+                <p class="instructions">Hover over the logo to reveal the alternate design.</p>
+            </section>
+        </div>
+
+        <section aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading">Backyard Bird Photo Gallery</h2>
+            <p class="instructions">Hover over or select a bird thumbnail to change the large image and its title.</p>
+            <div id="thumbs">
+                <button type="button" class="thumb-button active" aria-label="Show Northern Cardinal" aria-pressed="true"
+                        onmouseover="swapImage(0)" onfocus="swapImage(0)" onclick="swapImage(0)">
+                    <img src="Images/thumbnails/image1sm.jpg" alt="Northern Cardinal thumbnail" width="150" height="100">
+                </button>
+                <button type="button" class="thumb-button" aria-label="Show Great Horned Owl" aria-pressed="false"
+                        onmouseover="swapImage(1)" onfocus="swapImage(1)" onclick="swapImage(1)">
+                    <img src="Images/thumbnails/image2sm.jpg" alt="Great Horned Owl thumbnail" width="150" height="100">
+                </button>
+                <button type="button" class="thumb-button" aria-label="Show California Quail" aria-pressed="false"
+                        onmouseover="swapImage(2)" onfocus="swapImage(2)" onclick="swapImage(2)">
+                    <img src="Images/thumbnails/image3sm.jpg" alt="California Quail thumbnail" width="150" height="100">
+                </button>
+                <button type="button" class="thumb-button" aria-label="Show Great Blue Heron" aria-pressed="false"
+                        onmouseover="swapImage(3)" onfocus="swapImage(3)" onclick="swapImage(3)">
+                    <img src="Images/thumbnails/image4sm.jpg" alt="Great Blue Heron thumbnail" width="150" height="100">
+                </button>
+            </div>
+            <div id="image">
+                <img id="theImage" src="Images/fullsize/image1lg.jpg" alt="Northern Cardinal" width="400" height="267">
+                <h3 id="bottomText" aria-live="polite">Northern Cardinal</h3>
+            </div>
+        </section>
+
+        <section class="background-demo" aria-labelledby="background-heading">
+            <h2 id="background-heading">Two-Column Background for Project 7</h2>
+            <img src="Images/2colback.jpg" alt="Repeating two-column background, green decorative navigation area on the left and light sage content area on the right" width="900" height="150">
+            
+        </section>
+    </main>
+</body>
+</html>
